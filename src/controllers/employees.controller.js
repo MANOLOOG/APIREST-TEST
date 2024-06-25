@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getEmployees = async (req, res) => {
   try {
     // throw new Error("My error");
-    const [rows] = await pool.query("SELECT * FROM employee");
+    const [rows] = await pool.query("SELECT * FROM employees");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
@@ -13,7 +13,7 @@ export const getEmployees = async (req, res) => {
 export const getEmployee = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM employee WHERE id_employee = ?",
+      "SELECT * FROM employees WHERE id_employee = ?",
       [req.params.id]
     );
 
@@ -32,7 +32,7 @@ export const createEmployee = async (req, res) => {
   try {
     const { name, salary } = req.body;
     const [rows] = await pool.query(
-      "INSERT INTO employee (id_employee,name, salary) VALUES (null,?, ?)",
+      "INSERT INTO employees (id_employee, name, salary) VALUES (null, ?, ?)",
       [name, salary]
     );
     res.send({
@@ -50,7 +50,7 @@ export const createEmployee = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "DELETE FROM employee WHERE id_employee = ?",
+      "DELETE FROM employees WHERE id_employee = ?",
       [req.params.id]
     );
 
@@ -73,7 +73,7 @@ export const updateEmployee = async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      "UPDATE employee SET name = IFNULL(?, name), salary = IFNULL(?, salary) WHERE id_employee = ?",
+      "UPDATE employees SET name = IFNULL(?, name), salary = IFNULL(?, salary) WHERE id_employee = ?",
       [name, salary, id]
     );
 
